@@ -40,15 +40,17 @@ Ouvrez le fichier `PORT_SERIAL_DEBUG_RJ-ELEKTRONIK.h` et configurez la macro `DE
 Ouvrez le fichier généré par STM32CubeMX **`usbd_cdc_if.c`**, recherchez la fonction `CDC_Receive_HS` et insérez le code suivant entre les balises utilisateur :
 
 ```c
-static int8_t CDC_Receive_HS(uint8_t* pbuf, uint32_t *Len)
+static int8_t CDC_Receive_HS(uint8_t* Buf, uint32_t *Len)
 {
-  /* USER CODE BEGIN 11 */
-  extern void Serial_Receive_Callback(uint8_t *Buf, uint32_t len);
-  Serial_Receive_Callback(pbuf, *Len); // Injection dans le tampon circulaire
-  
-  USBD_CDC_SetRxBuffer(&hUsbDeviceHS, pbuf);
-  USBD_CDC_ReceivePacket(&hUsbDeviceHS);
-  return (USBD_OK);
+	  /* USER CODE BEGIN 11 */
+
+	  extern void Serial_Receive_Callback(uint8_t *Buf, uint32_t len);
+	  Serial_Receive_Callback(Buf, *Len); // Injection dans le tampon circulaire
+
+	  USBD_CDC_SetRxBuffer(&hUsbDeviceHS, Buf);
+	  USBD_CDC_ReceivePacket(&hUsbDeviceHS);
+	  return (USBD_OK);
+
   /* USER CODE END 11 */
 }
 ```
