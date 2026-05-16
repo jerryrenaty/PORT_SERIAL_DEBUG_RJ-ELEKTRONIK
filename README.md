@@ -119,7 +119,7 @@ int main(void)
   
   // 1. Initialisation unique adaptée à la compilation choisie
   #if (DEBUG_INTERFACE_SELECT == DEBUG_CHANNEL_USB)
-    Serial_debug_RJ(115200);       // Valeur de baudrate ignorée de façon transparente
+    Serial_debug_RJ();       // Valeur de baudrate ignorée de façon transparente
   #else
     Serial_debug_RJ(&huart1, 921600); // Reconfigure l'UART1 à 921600 bauds à la volée
   #endif
